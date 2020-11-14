@@ -1,5 +1,5 @@
 <template>
-  <div class="home container pt-3 ">
+  <div v-scroll="handleScroll" id="top-list" class="home container pt-3 ">
     <div class="card mb-3 " style="background:rgba(0,0,0,0.5)" v-for="(item,index) in info" :key="index">
       <div class="row no-gutters">
         <div class="col-md-4">
@@ -33,11 +33,15 @@
         </div>
       </div>
     </div>
+    <a href="#top-list" class="btn-to-top">
+      <i class="fa fa-arrow-up fa-lg"></i>
+    </a>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import debounce from 'lodash/debounce';
 
 export default {
   name: 'Home',
@@ -47,12 +51,33 @@ export default {
     }
   },
   methods: {
-    
+    handleScroll (event) {
+      // Any code to be executed when the window is scrolled
+      // console.log(event)
+      // console.log("metallica")
+      this.isUserScrolling = (window.scrollY > 0);
+      console.log(this.isUserScrolling);
+      console.log('calling handleScroll');
+    }
+  },
+  created() {
+    this.handleDebouncedScroll = debounce(this.handleScroll, 0);
+    window.addEventListener('scroll', this.handleDebouncedScroll);
+  },
+  beforeDestroy() {
+    // I switched the example from `destroyed` to `beforeDestroy`
+    // to exercise your mind a bit. This lifecycle method works too.
+    window.removeEventListener('scroll', this.handleDebouncedScroll);
+  },
+  destroyed () {
+    this.list.removeEventListener('scroll', this.handleScroll);
   },
   mounted () {
     axios
       .get('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
       .then(response => (this.info = response.data.drinks));
+    this.list = document.getElementById('top-list')
+    this.list.addEventListener('scroll', this.handleScroll);
   }
 }
 </script>
@@ -61,5 +86,51 @@ export default {
 <style scoped>
 .text-shadow {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
+}
+
+#top-list {
+  height:100%;
+  overflow: auto;
+}
+
+#top-list::-webkit-scrollbar{
+  width:8px;
+}
+
+#top-list::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+#top-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255,0.3);
+}
+
+#top-list::-webkit-scrollbar-track{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.btn-to-top {
+	border-radius: 50%;
+  border:2px solid rgba(15, 15, 105, 0.87);
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  line-height: 42px;
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+	opacity: 0.5;
+	position: fixed;
+  right: 50%;
+  bottom: 10px;
+	cursor: pointer;
+	-webkit-transition: all .3s ease;
+  -moz-transition: all .3s ease;
+  -o-transition: all .3s ease;
+  -ms-transition: all .3s ease;
+  transition: all .3s ease;
+  display: none;
+}
+.btn-to-top:hover {
+	opacity: 1;
 }
 </style>

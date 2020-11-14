@@ -13,7 +13,8 @@
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.19.0",
-    "vue": "^2.6.12"
+    "vue": "^2.6.12",
+    "vue-scroll": "^2.1.13"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
