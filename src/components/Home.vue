@@ -29,13 +29,14 @@
             </ul>
             <p>Glass: {{ item.strGlass }}</p>
             <p>Category: {{ item.strCategory }}</p>
-          </div>
-        </div>
+          </div><!-- card-body text-white text-shadow -->
+        </div><!-- col-md-8 -->
       </div>
-    </div>
-    <a href="#top-list" class="btn-to-top">
+    </div><!-- card mb-3  -->
+    <!-- <a href="#top-list" class="btn-to-top">
       <i class="fa fa-arrow-up fa-lg"></i>
-    </a>
+    </a> -->
+
   </div>
 </template>
 
@@ -47,7 +48,9 @@ export default {
   name: 'Home',
   data () {
     return {
-      info:null
+      info:null,
+      slide: 0,
+      sliding: null
     }
   },
   methods: {
@@ -58,6 +61,12 @@ export default {
       this.isUserScrolling = (window.scrollY > 0);
       console.log(this.isUserScrolling);
       console.log('calling handleScroll');
+    },
+    onSlideStart(slide) {
+      this.sliding = true
+    },
+    onSlideEnd(slide) {
+      this.sliding = false
     }
   },
   created() {
