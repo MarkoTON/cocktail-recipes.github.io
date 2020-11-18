@@ -33,9 +33,6 @@
         </div><!-- col-md-8 -->
       </div>
     </div><!-- card mb-3  -->
-    <!-- <a href="#top-list" class="btn-to-top">
-      <i class="fa fa-arrow-up fa-lg"></i>
-    </a> -->
 
   </div>
 </template>
@@ -55,9 +52,6 @@ export default {
   },
   methods: {
     handleScroll (event) {
-      // Any code to be executed when the window is scrolled
-      // console.log(event)
-      // console.log("metallica")
       this.isUserScrolling = (window.scrollY > 0);
       console.log(this.isUserScrolling);
       console.log('calling handleScroll');
